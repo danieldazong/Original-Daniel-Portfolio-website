@@ -23,18 +23,32 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
   const pillRef = useRef<HTMLDivElement>(null);
-  const labelRef = useRef<HTMLSpanElement>(null);
+   const labelRef = useRef<HTMLSpanElement>(null);
   const [labelWidth, setLabelWidth] = useState<number>(0);
+
+  // Sliding-pill hover indicator for the dropdown
+  const navRef = useRef<HTMLElement>(null);
+  const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+
+  // Position/size of the sliding white pill, measured from the hovered item
+  const indicator =
+    hoverIndex !== null && itemRefs.current[hoverIndex]
+      ? {
+          top: itemRefs.current[hoverIndex]!.offsetTop,
+          height: itemRefs.current[hoverIndex]!.offsetHeight,
+        }
+      : null;
+
 
   const currentLabel = activeSection
     ? NAV_ITEMS.find((i) => i.href === `#${activeSection}`)?.label ?? 'Menu'
     : 'Menu';
-  // Measure the current label's width so the pill can animate between sizes
+    // Reset the sliding hover pill whenever the menu closes
   useEffect(() => {
-    if (labelRef.current) {
-      setLabelWidth(labelRef.current.offsetWidth);
-    }
-  }, [currentLabel]);
+    if (!menuOpen) setHoverIndex(null);
+  }, [menuOpen]);
+
 
 
   // Scroll: shadow + scroll-spy
@@ -164,13 +178,29 @@ export default function Header() {
             </span>
 
 
-            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-surface text-text-primary transition-transform duration-300">
-              {menuOpen ? (
-                <X className="w-4 h-4" />
-              ) : (
-                <MoreHorizontal className="w-4 h-4" />
-              )}
+                        <span className="relative flex items-center justify-center w-7 h-7 rounded-full bg-surface text-text-primary overflow-hidden">
+              {/* Three dots — visible when closed */}
+              <MoreHorizontal
+                className="absolute w-4 h-4 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+                style={{
+                  opacity: menuOpen ? 0 : 1,
+                  transform: menuOpen
+                    ? 'rotate(-90deg) scale(0.5)'
+                    : 'rotate(0deg) scale(1)',
+                }}
+              />
+              {/* X — visible when open */}
+              <X
+                className="absolute w-4 h-4 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+                style={{
+                  opacity: menuOpen ? 1 : 0,
+                  transform: menuOpen
+                    ? 'rotate(0deg) scale(1)'
+                    : 'rotate(90deg) scale(0.5)',
+                }}
+              />
             </span>
+
           </button>
 
           {/* Dropdown panel */}
@@ -181,56 +211,100 @@ export default function Header() {
                 : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
             }`}
           >
-            <nav className="flex flex-col">
-              {NAV_ITEMS.map((item) => {
+                    <nav
+              ref={navRef}
+              className="relative flex flex-col"
+              onMouseLeave={() => setHoverIndex(null)}
+            >
+                            {/* Shared sliding white pill — glides between items with elastic overshoot */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute left-0 right-0 rounded-xl bg-surface"
+                style={{
+                  top: indicator
+                    ? indicator.top + indicator.height / 2
+                    : 0,
+                  height: indicator ? indicator.height : 0,
+                  transform: 'translateY(-50%)',
+                  opacity: indicator ? 1 : 0,
+                  transition:
+                    'top 0.4s cubic-bezier(0.34,1.56,0.64,1), height 0.3s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s ease',
+                }}
+              />
+
+
+              {NAV_ITEMS.map((item, index) => {
                 const id = item.href.substring(1);
                 const isActive = activeSection === id;
+                const isHovered = hoverIndex === index;
                 return (
-                                    <a
+                  <a
                     key={item.href}
+                    ref={(el) => { itemRefs.current[index] = el; }}
                     href={item.href}
                     onClick={(e) => handleNavClick(e, item.href)}
-                    className={`group/item flex items-center justify-between px-4 py-3 rounded-xl font-sans text-sm font-medium transition-colors ${
-                      isActive
-                        ? 'bg-surface text-text-primary'
-                        : 'text-zinc-300 hover:bg-surface hover:text-text-primary'
+                    onMouseEnter={() => setHoverIndex(index)}
+                    className={`relative z-10 flex items-center justify-between px-4 py-3 rounded-xl font-sans text-sm font-medium transition-colors duration-200 ${
+                      isHovered || (isActive && hoverIndex === null)
+                        ? 'text-text-primary'
+                        : 'text-zinc-300'
                     }`}
                   >
                     {item.label}
-                    <ArrowUpRight className="w-4 h-4 opacity-60 transition-colors group-hover/item:text-text-primary group-hover/item:opacity-100" />
+                    <ArrowUpRight
+                      className={`w-4 h-4 transition-all duration-200 ${
+                        isHovered || (isActive && hoverIndex === null)
+                          ? 'text-text-primary opacity-100'
+                          : 'opacity-60'
+                      }`}
+                    />
                   </a>
-
                 );
               })}
 
-              {/* CTA inside dropdown */}
-              <a
+
+                                       {/* CTA inside dropdown — distinct lift + subtle fill shift (Option A) */}
+                            <a
                 href="#contact"
                 onClick={(e) => handleNavClick(e, '#contact')}
-                className="mt-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-accent-blue text-surface font-sans text-sm font-semibold hover:bg-accent-blue-hover transition-colors"
+                onMouseEnter={() => setHoverIndex(null)}
+                className="group/talk relative z-10 mt-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-zinc-800 text-surface font-sans text-sm font-semibold border border-zinc-700 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-zinc-700 hover:border-zinc-600 hover:-translate-y-0.5 hover:shadow-lg"
               >
                 Let's Talk
-                <ArrowUpRight className="w-4 h-4" />
+                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover/talk:translate-x-0.5 group-hover/talk:-translate-y-0.5" />
               </a>
+
+
             </nav>
           </div>
         </div>
 
-                {/* Let's Talk — top right (hidden on small screens) */}
-        <a
+                        {/* Let's Talk — top right (hidden on small screens) */}
+                <a
           id="nav-cta-desktop"
           href="#contact"
           onClick={(e) => handleNavClick(e, '#contact')}
-          className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-text-primary text-surface font-sans text-xs font-semibold hover:bg-zinc-700 transition-all duration-200 shadow-sm"
+          className="group/cta relative hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-text-primary text-surface font-sans text-xs font-semibold overflow-hidden shadow-sm border border-transparent hover:border-text-primary transition-colors duration-300"
         >
-                    {/* Subtle white "available" pulse */}
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full rounded-full bg-white opacity-60 animate-ping" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+
+          {/* White elastic fill — slides up on hover, retracts down on leave */}
+          <span
+            aria-hidden="true"
+            className="absolute inset-0 z-0 bg-surface translate-y-full group-hover/cta:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+          />
+
+          {/* Subtle "available" pulse — turns black when the white fill is up */}
+          <span className="relative z-10 flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-white group-hover/cta:bg-text-primary opacity-60 animate-ping transition-colors duration-300" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-white group-hover/cta:bg-text-primary transition-colors duration-300" />
           </span>
-          Let's collaborate
-          <ArrowUpRight className="w-3.5 h-3.5" />
+
+          <span className="relative z-10 transition-colors duration-300 group-hover/cta:text-text-primary">
+            Let's collaborate
+          </span>
+          <ArrowUpRight className="relative z-10 w-3.5 h-3.5 transition-colors duration-300 group-hover/cta:text-text-primary" />
         </a>
+
 
 
       </div>

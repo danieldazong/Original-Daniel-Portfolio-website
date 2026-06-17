@@ -241,23 +241,31 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* Show more / less toggle — only on the All tab when there are extra projects */}
+               {/* Show more / less toggle — only on the All tab when there are extra projects */}
         {isCollapsible && (
           <div className="flex justify-center mt-12">
             <button
               onClick={() => setExpanded((v) => !v)}
-              className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full border border-border-custom bg-surface font-sans text-sm font-semibold text-text-primary hover:border-text-primary/40 hover:shadow-md transition-all duration-300 cursor-pointer"
+              className="group/cta relative inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-text-primary text-surface font-sans text-sm font-semibold overflow-hidden shadow-sm border border-transparent hover:border-text-primary transition-colors duration-300 cursor-pointer"
             >
+              {/* White elastic fill — slides up on hover, retracts down on leave */}
+              <span
+                aria-hidden="true"
+                className="absolute inset-0 z-0 bg-surface translate-y-full group-hover/cta:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+              />
+
+              <span className="relative z-10 transition-colors duration-300 group-hover/cta:text-text-primary">
+                {expanded ? (
+                  <>Show less</>
+                ) : (
+                  <>Show {remaining} more {remaining === 1 ? 'project' : 'projects'}</>
+                )}
+              </span>
+
               {expanded ? (
-                <>
-                  Show less
-                  <Minus className="w-4 h-4 transition-transform group-hover:scale-110" />
-                </>
+                <Minus className="relative z-10 w-4 h-4 transition-colors duration-300 group-hover/cta:text-text-primary" />
               ) : (
-                <>
-                  Show {remaining} more {remaining === 1 ? 'project' : 'projects'}
-                  <Plus className="w-4 h-4 transition-transform group-hover:rotate-90" />
-                </>
+                <Plus className="relative z-10 w-4 h-4 transition-colors duration-300 group-hover/cta:text-text-primary" />
               )}
             </button>
           </div>

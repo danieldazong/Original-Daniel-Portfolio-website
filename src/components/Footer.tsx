@@ -70,19 +70,25 @@ export default function Footer() {
             </p>
 
 
-                        {/* Email CTA — white button with white outline; inverts to dark on hover */}
+                                    {/* Email CTA — white w/ white outline; black elastic fill slides up on hover */}
                         <a
               href={`https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-2.5 px-7 py-4 rounded-full bg-surface text-text-primary border border-white/80 font-sans text-sm md:text-base font-semibold overflow-hidden transition-colors duration-300 hover:bg-transparent hover:text-surface"
+              className="group/cta relative inline-flex items-center gap-2.5 px-7 py-4 rounded-full bg-surface text-text-primary border border-white/80 font-sans text-sm md:text-base font-semibold overflow-hidden transition-colors duration-300"
             >
+              {/* Black elastic fill — slides up on hover, retracts down on leave */}
+              <span
+                aria-hidden="true"
+                className="absolute inset-0 z-0 bg-text-primary translate-y-full group-hover/cta:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+              />
 
-              <span className="relative z-10 transition-colors duration-300">
+              <span className="relative z-10 transition-colors duration-300 group-hover/cta:text-surface">
                 {EMAIL}
               </span>
-              <ArrowUpRight className="relative z-10 w-4 h-4 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <ArrowUpRight className="relative z-10 w-4 h-4 transition-all duration-300 group-hover/cta:text-surface group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
             </a>
+
 
           </div>
 
