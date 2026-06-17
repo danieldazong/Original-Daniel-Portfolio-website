@@ -36,9 +36,11 @@ export default function Experience() {
       : ((activeIndex + 1) / EXPERIENCE_DATA.length) * 100;
 
   return (
-    <section ref={sectionRef} id="experience" className="py-24 md:py-32 bg-bg relative">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+       <section ref={sectionRef} id="experience" className="py-24 md:py-32 hero-grid-bg relative">
+            <div className="max-w-7xl mx-auto px-6 md:px-12">
+                <div className="bg-surface/80 backdrop-blur-sm border border-border-custom shadow-sm p-8 md:p-14 lg:p-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+
 
           {/* Left — Capabilities */}
           <div>
@@ -203,8 +205,10 @@ export default function Experience() {
             </a>
           </div>
 
+                  </div>
         </div>
       </div>
     </section>
   );
 }
+

@@ -82,12 +82,15 @@ export default function Header() {
   };
 
   return (
-    <header
+        <header
       id="main-header"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'py-3' : 'py-5'
+        scrolled
+          ? 'py-3 bg-surface/80 backdrop-blur-md border-b border-zinc-200/60 shadow-sm'
+          : 'py-5 bg-transparent border-b border-transparent'
       }`}
     >
+
                <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
 
 

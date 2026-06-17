@@ -2,15 +2,73 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, ReactNode, FC } from 'react';
 import { ArrowUpRight, Plus, Minus } from 'lucide-react';
 import { PROJECTS, PROJECT_FILTERS } from '../data';
 
 const COLLAPSED_COUNT = 2;
 
+/**
+ * Wraps a project card so it ripples in (fade + rise) when scrolled into view.
+ * Each card gets an incremental delay to create the staggered cascade.
+ * Respects reduced-motion and animates once.
+ */
+interface CardRevealProps {
+  children: ReactNode;
+  index: number;
+  className?: string;
+  href: string;
+}
+
+const CardReveal: FC<CardRevealProps> = ({ children, index, className, href }) => {
+
+  const ref = useRef<HTMLAnchorElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const prefersReduced = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+    if (prefersReduced) {
+      setVisible(true);
+      return;
+    }
+    const node = ref.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -8% 0px' }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <a
+      ref={ref}
+      href={href}
+      className={className}
+      style={{
+        transition:
+          'opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1)',
+        transitionDelay: `${(index % COLLAPSED_COUNT) * 90 + 60}ms`,
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(30px)',
+        willChange: 'opacity, transform',
+      }}
+    >
+            {children}
+    </a>
+  );
+};
 
 export default function Projects() {
+
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [expanded, setExpanded] = useState(false);
 
@@ -23,7 +81,6 @@ export default function Projects() {
     });
   }, []);
 
-
   const filtered =
     activeFilter === 'all'
       ? PROJECTS
@@ -35,16 +92,14 @@ export default function Projects() {
     isCollapsible && !expanded ? filtered.slice(0, COLLAPSED_COUNT) : filtered;
   const remaining = filtered.length - COLLAPSED_COUNT;
 
-
   return (
-        <section
+    <section
       id="work"
       className="py-24 md:py-32 hero-grid-bg relative overflow-hidden"
     >
-
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative">
 
-                {/* Centered heading with faded watermark directly behind */}
+        {/* Centered heading with faded watermark directly behind */}
         <div className="relative flex items-center justify-center mb-12 h-[120px] md:h-[160px]">
           {/* Faded watermark */}
           <span className="portfolio-watermark absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -56,12 +111,12 @@ export default function Projects() {
           </h2>
         </div>
 
-                {/* Filter tabs (left) + View All Work button (right) on one row */}
+        {/* Filter tabs (left) + View All Work button (right) on one row */}
         <div className="flex items-center justify-between gap-4 mb-10">
           {/* Filter tabs — text links with underline on active */}
           <div className="flex flex-wrap items-center gap-6">
             {PROJECT_FILTERS.map((filter) => (
-                            <button
+              <button
                 key={filter.key}
                 onClick={() => {
                   setActiveFilter(filter.key);
@@ -73,7 +128,6 @@ export default function Projects() {
                     : 'font-medium text-text-secondary hover:text-text-primary'
                 }`}
               >
-
                 {filter.label}
                 {activeFilter === filter.key && (
                   <span className="absolute bottom-0 left-0 w-full h-0.5 bg-text-primary rounded-full" />
@@ -92,38 +146,18 @@ export default function Projects() {
           </a>
         </div>
 
-
-
-                {/* Project grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {visibleProjects.map((project, index) => {
-            // Only the cards revealed by "Show more" (on the All tab) get the
-            // fade-in. Tab filtering renders instantly — no animation, no delay.
-            const isRevealCard =
-              activeFilter === 'all' && expanded && index >= COLLAPSED_COUNT;
-
-            return (
-              <a
-                key={`${activeFilter}-${project.id}`}
-                href={project.link || '#'}
-                className="group flex flex-col rounded-none border border-border-custom bg-surface overflow-hidden hover:border-text-primary/30 hover:shadow-md transition-all duration-300"
-                style={
-                  isRevealCard
-                    ? {
-                        animation: 'fade-in-scale 0.4s cubic-bezier(0.16,1,0.3,1) forwards',
-                        animationDelay: `${(index - COLLAPSED_COUNT) * 0.07}s`,
-                        opacity: 0
-                      }
-                    : undefined
-                }
-              >
-
-
-
-
-                             {/* Image */}
+        {/* Project grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {visibleProjects.map((project, index) => (
+            <CardReveal
+              key={`${activeFilter}-${project.id}`}
+              index={index}
+              href={project.link || '#'}
+              className="group flex flex-col rounded-none border border-border-custom bg-surface overflow-hidden hover:border-text-primary/30 hover:shadow-md transition-all duration-300"
+            >
+              {/* Image */}
               <div className="relative aspect-[4/3] overflow-hidden">
-                                <img
+                <img
                   src={project.image}
                   alt={project.title}
                   decoding="sync"
@@ -134,7 +168,6 @@ export default function Projects() {
                   {project.category === 'real' ? 'Automation' : 'AI App'}
                 </span>
               </div>
-
 
               {/* Body */}
               <div className="flex flex-col gap-3 p-5">
@@ -152,12 +185,11 @@ export default function Projects() {
                   ))}
                 </div>
               </div>
-                      </a>
-            );
-          })}
+            </CardReveal>
+          ))}
         </div>
 
-                {/* Show more / less toggle — only on the All tab when there are extra projects */}
+        {/* Show more / less toggle — only on the All tab when there are extra projects */}
         {isCollapsible && (
           <div className="flex justify-center mt-12">
             <button
@@ -178,7 +210,6 @@ export default function Projects() {
             </button>
           </div>
         )}
-
 
       </div>
     </section>

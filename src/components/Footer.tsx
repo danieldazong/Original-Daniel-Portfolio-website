@@ -7,10 +7,9 @@ import { useEffect, useRef, useState, MouseEvent } from 'react';
 import { ArrowUpRight, ArrowUp, Github, Linkedin, Mail } from 'lucide-react';
 
 const EMAIL = 'dazong.daniel@gmail.com';
-const LINKEDIN_URL = 'https://linkedin.com'; /* TODO: replace with your LinkedIn URL */
-const GITHUB_URL = 'https://github.com'; /* TODO: replace with your GitHub URL */
-const PORTFOLIO_URL = '#home'; /* TODO: replace with your Portfolio URL */
-
+const LINKEDIN_URL = 'https://www.linkedin.com/in/danieldazong';
+const GITHUB_URL = 'https://github.com/danieldazong';
+              
 export default function Footer() {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
@@ -35,7 +34,7 @@ export default function Footer() {
   };
 
   return (
-    <footer ref={ref} id="main-footer" className="bg-bg pt-12">
+        <footer ref={ref} id="main-footer" className="bg-bg">
             {/* Dark rounded-top CTA panel */}
       <section
         id="contact"
@@ -72,10 +71,13 @@ export default function Footer() {
 
 
             {/* Email CTA — fill-sweep on hover */}
-            <a
-              href={`mailto:${EMAIL}`}
+                        <a
+              href={`https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}`}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group relative inline-flex items-center gap-2.5 px-7 py-4 rounded-full bg-surface text-text-primary font-sans text-sm md:text-base font-semibold overflow-hidden transition-colors"
             >
+
               <span className="absolute inset-0 bg-accent-blue translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
               <span className="relative z-10 transition-colors duration-300 group-hover:text-surface">
                 {EMAIL}
@@ -101,14 +103,17 @@ export default function Footer() {
 
               {/* Social rails */}
               <div className="flex items-center gap-5">
-                <a
-                  href={`mailto:${EMAIL}`}
+                                <a
+                  href={`https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-zinc-400 hover:text-surface transition-colors"
                   aria-label="Email"
                   title="Email"
                 >
                   <Mail className="w-5 h-5" />
                 </a>
+
                 <a
                   href={LINKEDIN_URL}
                   target="_blank"
@@ -129,21 +134,18 @@ export default function Footer() {
                 >
                   <Github className="w-5 h-5" />
                 </a>
-                                <a
-                  href={PORTFOLIO_URL}
-                  className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 hover:text-surface transition-colors"
-                >
-                  Portfolio
-                </a>
+                                                
+
 
               </div>
             </div>
 
             {/* Bottom bar */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
-                            <p className="font-sans text-sm text-zinc-600">
-                © {new Date().getFullYear()} Daniel Dazong · Built with React & Tailwind CSS
+                                          <p className="font-sans text-sm text-zinc-600">
+                © 2017 – {new Date().getFullYear()} Daniel Dazong. All rights reserved.
               </p>
+
 
 
               <button

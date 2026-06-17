@@ -11,12 +11,13 @@ import Experience from './components/Experience';
 // import Contact from './components/Contact'; // Removed (04 / Connect section)
 import Footer from './components/Footer';
 import Projects from './components/Projects';
+import Reveal from './components/Reveal';
 
 export default function App() {
   return (
     <div className="min-h-screen bg-bg text-text-primary antialiased font-sans">
       <Header />
-                 <main>
+            <main>
         <Hero />
         <Projects />
         <Experience />
