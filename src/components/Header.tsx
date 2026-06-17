@@ -2,40 +2,34 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-
-import { useState, useEffect, MouseEvent } from 'react';
-import { Menu, X, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { useState, useEffect, useRef, MouseEvent } from 'react';
+import { ArrowUpRight, MoreHorizontal, X } from 'lucide-react';
+import logo from '../assets/images/Logo.webp';
 
 
 interface NavItem {
   label: string;
   href: string;
-  count?: string;
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: 'About', href: '#about' },
-  { label: 'Experience', href: '#experience', count: '9yr' },
-  { label: 'Blog', href: '#blog', count: '12' },
+  { label: 'Work', href: '#work' },
+  { label: 'Experience', href: '#experience' },
   { label: 'Contact', href: '#contact' },
 ];
 
-
 export default function Header() {
-  const [activeSection, setActiveSection] = useState('home');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pillRef = useRef<HTMLDivElement>(null);
 
-  // Monitor scroll for glassmorphic effect & active scrollspy
+  // Scroll: shadow + scroll-spy
   useEffect(() => {
     const handleScroll = () => {
-      // 1. Update shadow/backdrop
       setScrolled(window.scrollY > 20);
+      const scrollPosition = window.scrollY + 120;
 
-      // 2. Scroll-spy calculation
-      const scrollPosition = window.scrollY + 120; // offset for nav height
-
-      // Check which section we are in
       for (const item of NAV_ITEMS) {
         const id = item.href.substring(1);
         const el = document.getElementById(id);
@@ -48,35 +42,42 @@ export default function Header() {
           }
         }
       }
-
-      // Special case: Top of the page
-      if (window.scrollY < 100) {
-        setActiveSection('');
-      }
+      if (window.scrollY < 100) setActiveSection('');
     };
 
     window.addEventListener('scroll', handleScroll);
-    // Initial call
     handleScroll();
-
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Close dropdown on outside click / Escape
+  useEffect(() => {
+    const onClickOutside = (e: globalThis.MouseEvent) => {
+      if (pillRef.current && !pillRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    document.addEventListener('mousedown', onClickOutside);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onClickOutside);
+      document.removeEventListener('keydown', onKey);
+    };
   }, []);
 
   const handleNavClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    setMobileMenuOpen(false);
-    
+    setMenuOpen(false);
+
     const id = href.substring(1);
     const element = document.getElementById(id);
     if (element) {
-      const offset = 80; // height of fixed navbar
+      const offset = 90;
       const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+      window.scrollTo({ top: elementPosition - offset, behavior: 'smooth' });
     }
   };
 
@@ -84,13 +85,13 @@ export default function Header() {
     <header
       id="main-header"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-surface/90 backdrop-blur-md shadow-sm border-b border-border-custom py-3'
-          : 'bg-transparent py-5'
+        scrolled ? 'py-3' : 'py-5'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
-        {/* Name/Logo */}
+               <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
+
+
+        {/* Name/Logo — top left */}
         <a
           id="nav-logo"
           href="#"
@@ -101,113 +102,103 @@ export default function Header() {
           }}
           className="flex items-center gap-2.5 group focus:outline-none"
         >
-          <div className="w-8 h-8 bg-accent-blue rounded-sm flex items-center justify-center text-surface font-extrabold font-space shadow-sm transition-transform duration-200 group-hover:scale-105">
-            A
-          </div>
-                    <span className="font-space font-bold text-lg tracking-tight text-text-primary group-hover:text-accent-blue transition-colors relative py-0.5">
+                    <img
+            src={logo}
+            alt="Daniel Dazong logo"
+            className="w-8 h-8 object-contain select-none transition-transform duration-200 group-hover:scale-105"
+          />
+
+                    <span className="font-space font-bold text-lg tracking-tight text-text-primary hidden sm:inline">
             DANIEL DAZONG
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-accent-blue transition-all duration-300 group-hover:w-full"></span>
           </span>
 
         </a>
 
-        {/* Desktop Navigation Links */}
-        <nav id="desktop-nav" className="hidden md:flex items-center space-x-8">
-          {NAV_ITEMS.map((item) => {
-            const id = item.href.substring(1);
-            const isActive = activeSection === id;
-            return (
-                            <a
-                key={item.href}
-                id={`nav-link-${id}`}
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
-                className={`font-sans text-sm font-medium transition-colors relative py-1 inline-flex items-center gap-1 ${
-                  isActive
-                    ? 'text-accent-blue'
-                    : 'text-text-secondary hover:text-text-primary'
-                }`}
-              >
-                {item.label}
-                {item.count && (
-                  <span className="text-[10px] font-mono text-text-secondary/70 align-super">
-                    [{item.count}]
-                  </span>
-                )}
-                {isActive && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-blue rounded" />
-                )}
-              </a>
-
-            );
-          })}
-        </nav>
-
-        {/* Contact CTA */}
-        <div className="hidden md:block">
-                    <a
-            id="nav-cta-desktop"
-            href="#contact"
-            onClick={(e) => handleNavClick(e, '#contact')}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-text-primary text-surface font-sans text-xs font-semibold hover:bg-zinc-700 transition-all duration-200 shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-accent-blue focus-visible:ring-offset-2"
-          >
-            Let's Talk
-            <ArrowUpRight className="w-3.5 h-3.5" />
-          </a>
-        </div>
-
-        {/* Mobile Hamburger Trigger */}
-        <button
-          id="mobile-menu-trigger"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 text-text-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue"
-          aria-expanded={mobileMenuOpen}
-          aria-label="Toggle Navigation Menu"
+        {/* Centered pill nav */}
+        <div
+          ref={pillRef}
+          className="absolute left-1/2 -translate-x-1/2 z-50"
         >
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
-      </div>
+          {/* Collapsed pill */}
+          <button
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-expanded={menuOpen}
+            aria-label="Toggle navigation menu"
+            className="flex items-center gap-3 pl-5 pr-2 py-2 rounded-full bg-text-primary text-surface shadow-lg hover:shadow-xl transition-all duration-200"
+          >
+            <span className="font-space font-semibold text-sm tracking-tight">
+              {activeSection
+                ? NAV_ITEMS.find((i) => i.href === `#${activeSection}`)?.label ?? 'Menu'
+                : 'Menu'}
+            </span>
+            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-surface text-text-primary transition-transform duration-300">
+              {menuOpen ? (
+                <X className="w-4 h-4" />
+              ) : (
+                <MoreHorizontal className="w-4 h-4" />
+              )}
+            </span>
+          </button>
 
-      {/* Mobile Drawer Overlay */}
-      <div
-        id="mobile-menu-overlay"
-        className={`fixed inset-0 top-[60px] z-40 bg-bg md:hidden transition-transform duration-300 ease-in-out ${
-          mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-      >
-        <div className="flex flex-col h-full bg-surface px-6 py-8 border-b border-border-custom shadow-lg">
-          <nav id="mobile-nav" className="flex flex-col space-y-6">
-            {NAV_ITEMS.map((item) => {
-              const id = item.href.substring(1);
-              const isActive = activeSection === id;
-              return (
-                <a
-                  key={item.href}
-                  id={`mobile-nav-link-${id}`}
-                  href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
-                  className={`font-space text-lg font-bold tracking-tight transition-colors py-2 ${
-                    isActive ? 'text-accent-blue border-l-4 border-accent-blue pl-4' : 'text-text-secondary pl-4 hover:text-text-primary'
-                  }`}
-                >
-                  {item.label}
-                </a>
-              );
-            })}
+          {/* Dropdown panel */}
+          <div
+            className={`absolute left-1/2 -translate-x-1/2 mt-3 w-56 origin-top rounded-2xl bg-text-primary text-surface shadow-2xl p-2 transition-all duration-300 ${
+              menuOpen
+                ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
+                : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
+            }`}
+          >
+            <nav className="flex flex-col">
+              {NAV_ITEMS.map((item) => {
+                const id = item.href.substring(1);
+                const isActive = activeSection === id;
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={(e) => handleNavClick(e, item.href)}
+                    className={`flex items-center justify-between px-4 py-3 rounded-xl font-sans text-sm font-medium transition-colors ${
+                      isActive
+                        ? 'bg-surface text-text-primary'
+                        : 'text-zinc-300 hover:bg-zinc-800 hover:text-surface'
+                    }`}
+                  >
+                    {item.label}
+                    <ArrowUpRight className="w-4 h-4 opacity-60" />
+                  </a>
+                );
+              })}
 
-            <div className="pt-6 border-t border-border-custom pl-4">
+              {/* CTA inside dropdown */}
               <a
-                id="nav-cta-mobile"
                 href="#contact"
                 onClick={(e) => handleNavClick(e, '#contact')}
-                className="w-full text-center inline-flex justify-center items-center gap-2 px-5 py-3 rounded-md bg-accent-blue text-surface font-sans text-sm font-semibold hover:bg-accent-blue-hover transition-colors"
+                className="mt-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-accent-blue text-surface font-sans text-sm font-semibold hover:bg-accent-blue-hover transition-colors"
               >
-                Let's Work Together
-                <ArrowRight className="w-4 h-4" />
+                Let's Talk
+                <ArrowUpRight className="w-4 h-4" />
               </a>
-            </div>
-          </nav>
+            </nav>
+          </div>
         </div>
+
+                {/* Let's Talk — top right (hidden on small screens) */}
+        <a
+          id="nav-cta-desktop"
+          href="#contact"
+          onClick={(e) => handleNavClick(e, '#contact')}
+          className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-text-primary text-surface font-sans text-xs font-semibold hover:bg-zinc-700 transition-all duration-200 shadow-sm"
+        >
+                    {/* Subtle white "available" pulse */}
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-white opacity-60 animate-ping" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+          </span>
+          Let's collaborate
+          <ArrowUpRight className="w-3.5 h-3.5" />
+        </a>
+
+
       </div>
     </header>
   );

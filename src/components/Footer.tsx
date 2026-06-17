@@ -36,12 +36,23 @@ export default function Footer() {
 
   return (
     <footer ref={ref} id="main-footer" className="bg-bg pt-12">
-      {/* Dark rounded-top CTA panel */}
+            {/* Dark rounded-top CTA panel */}
       <section
         id="contact"
-        className="bg-zinc-900 text-zinc-400 rounded-t-[2.5rem] md:rounded-t-[3.5rem] overflow-hidden"
+        className="relative bg-zinc-900 text-zinc-400 rounded-t-[2.5rem] md:rounded-t-[3.5rem] overflow-hidden"
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-12 pt-20 pb-12 md:pt-28 md:pb-16">
+        {/* Giant brand watermark — bleeds off the bottom edge */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none select-none absolute inset-x-0 bottom-0 z-0 flex justify-center overflow-hidden"
+        >
+          <span className="hero-display text-zinc-800/40 leading-none whitespace-nowrap text-[22vw] md:text-[20vw] translate-y-[22%]">
+            DANIEL DAZONG
+          </span>
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-20 pb-12 md:pt-28 md:pb-16">
+
 
           {/* CTA block */}
           <div

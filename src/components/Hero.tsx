@@ -13,14 +13,7 @@ export default function Hero() {
       id="home"
       className="relative min-h-screen flex items-center justify-center pt-24 pb-12 hero-grid-bg overflow-hidden"
     >
-      {/* Status Pill — top left */}
-      <div className="absolute top-24 left-6 md:left-12 z-30 animate-fade-in">
-        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface text-text-primary border border-border-custom text-sm font-medium font-sans shadow-sm">
-          <span className="w-2 h-2 bg-emerald-500 rounded-full" />
-          Available for New Project
-        </span>
-      </div>
-
+      
       {/* Layered Hero Composition */}
       <div className="relative w-full max-w-6xl mx-auto px-6 flex items-center justify-center">
                 {/* Giant Name — sits BEHIND the portrait */}
@@ -38,31 +31,44 @@ export default function Hero() {
           <img
             id="hero-avatar"
             src={danPortrait}
-            alt="Daniel Dazong — AI Developer"
+            alt="Daniel Dazong — AI Solutions Architect"
             className="h-[60vh] md:h-[68vh] w-auto object-contain object-bottom select-none"
             referrerPolicy="no-referrer"
           />
         </div>
       </div>
 
-            {/* Title Block — bottom left */}
-      <div className="absolute bottom-10 left-6 md:left-12 z-30 max-w-xs">
-        <h2 className="font-space font-bold text-2xl md:text-3xl text-text-primary tracking-tight mb-2">
-          AI Developer
-        </h2>
-        <p className="font-sans text-sm text-text-secondary leading-relaxed mb-5">
-          Designing digital products that are clear, usable, and conversion focused.
-        </p>
+                                                     {/* Bottom content row — aligned to the same max-w-7xl column as the sections below */}
+      <div className="absolute bottom-10 left-0 right-0 z-30">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-end justify-between gap-6">
 
-        {/* Let's collaborate button */}
-        <a
-          href="#contact"
-          className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-text-primary text-surface font-sans text-sm font-semibold shadow-md hover:bg-accent-blue transition-colors"
-        >
-          Let's collaborate
-          <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </a>
+          {/* Title Block — bottom left */}
+          <div className="max-w-xs">
+            <h2 className="font-space font-bold text-2xl md:text-3xl text-text-primary tracking-tight mb-2">
+              AI Solutions Architect
+            </h2>
+            <p className="font-sans text-sm text-text-secondary leading-relaxed">
+              Designing digital products that are clear, usable, and conversion focused.
+            </p>
+          </div>
+
+          {/* Counterweight Block — bottom right */}
+          <div className="text-right hidden sm:block animate-fade-in">
+            <p className="font-space font-bold text-2xl md:text-3xl text-text-primary tracking-tight leading-none">
+              7+ Years
+            </p>
+            <p className="font-mono text-[11px] uppercase tracking-wider text-text-secondary mt-2">
+              AI & Automation Engineering
+            </p>
+            <p className="font-mono text-[11px] uppercase tracking-wider text-text-secondary mt-1">
+              Raleigh, NC · Remote
+            </p>
+          </div>
+
+        </div>
       </div>
     </section>
   );
 }
+
+
