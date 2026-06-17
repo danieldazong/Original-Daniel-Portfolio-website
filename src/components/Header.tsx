@@ -21,8 +21,21 @@ const NAV_ITEMS: NavItem[] = [
 export default function Header() {
   const [activeSection, setActiveSection] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
   const pillRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLSpanElement>(null);
+  const [labelWidth, setLabelWidth] = useState<number>(0);
+
+  const currentLabel = activeSection
+    ? NAV_ITEMS.find((i) => i.href === `#${activeSection}`)?.label ?? 'Menu'
+    : 'Menu';
+  // Measure the current label's width so the pill can animate between sizes
+  useEffect(() => {
+    if (labelRef.current) {
+      setLabelWidth(labelRef.current.offsetWidth);
+    }
+  }, [currentLabel]);
+
 
   // Scroll: shadow + scroll-spy
   useEffect(() => {
@@ -123,17 +136,34 @@ export default function Header() {
           className="absolute left-1/2 -translate-x-1/2 z-50"
         >
           {/* Collapsed pill */}
-          <button
+                              <button
             onClick={() => setMenuOpen((v) => !v)}
             aria-expanded={menuOpen}
             aria-label="Toggle navigation menu"
-            className="flex items-center gap-3 pl-5 pr-2 py-2 rounded-full bg-text-primary text-surface shadow-lg hover:shadow-xl transition-all duration-200"
+            className="flex items-center gap-3 pl-5 pr-2 py-2 rounded-full bg-text-primary text-surface shadow-lg hover:shadow-xl transition-shadow duration-200"
           >
-            <span className="font-space font-semibold text-sm tracking-tight">
-              {activeSection
-                ? NAV_ITEMS.find((i) => i.href === `#${activeSection}`)?.label ?? 'Menu'
-                : 'Menu'}
+            <span
+              className="relative block overflow-hidden font-space font-semibold text-sm tracking-tight transition-[width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+              style={{ width: labelWidth ? `${labelWidth}px` : 'auto' }}
+            >
+              {/* Hidden measurer — sets the target width (not visible) */}
+              <span
+                ref={labelRef}
+                aria-hidden="true"
+                className="invisible absolute left-0 top-0 whitespace-nowrap"
+              >
+                {currentLabel}
+              </span>
+              {/* Visible animated label */}
+              <span
+                key={currentLabel}
+                className="block whitespace-nowrap animate-label-swap"
+              >
+                {currentLabel}
+              </span>
             </span>
+
+
             <span className="flex items-center justify-center w-7 h-7 rounded-full bg-surface text-text-primary transition-transform duration-300">
               {menuOpen ? (
                 <X className="w-4 h-4" />
