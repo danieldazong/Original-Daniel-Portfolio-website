@@ -35,17 +35,18 @@ const CardReveal: FC<CardRevealProps> = ({ children, index, className, href }) =
     }
     const node = ref.current;
     if (!node) return;
-    const observer = new IntersectionObserver(
+        const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setVisible(true);
           observer.disconnect();
         }
       },
-      { threshold: 0.15, rootMargin: '0px 0px -8% 0px' }
+      { threshold: 0, rootMargin: '0px 0px -35% 0px' }
     );
     observer.observe(node);
     return () => observer.disconnect();
+
   }, []);
 
   return (
@@ -53,14 +54,15 @@ const CardReveal: FC<CardRevealProps> = ({ children, index, className, href }) =
       ref={ref}
       href={href}
       className={className}
-      style={{
+            style={{
         transition:
-          'opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1)',
-        transitionDelay: `${(index % COLLAPSED_COUNT) * 90 + 60}ms`,
+          'opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1)',
+        transitionDelay: `${(index % COLLAPSED_COUNT) * 120 + 300}ms`,
         opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(30px)',
+        transform: visible ? 'translateY(0)' : 'translateY(60px)',
         willChange: 'opacity, transform',
       }}
+
     >
             {children}
     </a>
@@ -68,9 +70,36 @@ const CardReveal: FC<CardRevealProps> = ({ children, index, className, href }) =
 };
 
 export default function Projects() {
-
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [expanded, setExpanded] = useState(false);
+
+  // Reveal state for the heading + tabs (cards animate separately via CardReveal)
+  const headerRef = useRef<HTMLDivElement>(null);
+  const [headerVisible, setHeaderVisible] = useState(false);
+
+  useEffect(() => {
+    const prefersReduced = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+    if (prefersReduced) {
+      setHeaderVisible(true);
+      return;
+    }
+    const node = headerRef.current;
+    if (!node) return;
+     const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHeaderVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.05, rootMargin: '0px 0px -10% 0px' }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+
+  }, []);
 
   // Preload every project image on mount so tab switches / "Show more"
   // display instantly from cache — no fetch flicker.
@@ -80,6 +109,7 @@ export default function Projects() {
       img.src = project.image;
     });
   }, []);
+
 
   const filtered =
     activeFilter === 'all'
@@ -99,8 +129,18 @@ export default function Projects() {
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative">
 
-        {/* Centered heading with faded watermark directly behind */}
-        <div className="relative flex items-center justify-center mb-12 h-[120px] md:h-[160px]">
+                {/* Centered heading with faded watermark directly behind */}
+        <div
+          ref={headerRef}
+          className="relative flex items-center justify-center mb-12 h-[120px] md:h-[160px]"
+                    style={{
+            transition:
+              'opacity 1.2s cubic-bezier(0.16,1,0.3,1), transform 1.2s cubic-bezier(0.16,1,0.3,1)',
+            opacity: headerVisible ? 1 : 0,
+            transform: headerVisible ? 'translateY(0)' : 'translateY(70px)',
+            willChange: 'opacity, transform',
+          }}
+        >
           {/* Faded watermark */}
           <span className="portfolio-watermark absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             PORTFOLIO
@@ -111,8 +151,20 @@ export default function Projects() {
           </h2>
         </div>
 
-        {/* Filter tabs (left) + View All Work button (right) on one row */}
-        <div className="flex items-center justify-between gap-4 mb-10">
+                {/* Filter tabs (left) + View All Work button (right) on one row */}
+        <div
+          className="flex items-center justify-between gap-4 mb-10"
+                    style={{
+            transition:
+              'opacity 1.2s cubic-bezier(0.16,1,0.3,1), transform 1.2s cubic-bezier(0.16,1,0.3,1)',
+            transitionDelay: '220ms',
+            opacity: headerVisible ? 1 : 0,
+            transform: headerVisible ? 'translateY(0)' : 'translateY(50px)',
+            willChange: 'opacity, transform',
+          }}
+
+        >
+
           {/* Filter tabs — text links with underline on active */}
           <div className="flex flex-wrap items-center gap-6">
             {PROJECT_FILTERS.map((filter) => (

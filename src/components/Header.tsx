@@ -156,19 +156,20 @@ export default function Header() {
                 const id = item.href.substring(1);
                 const isActive = activeSection === id;
                 return (
-                  <a
+                                    <a
                     key={item.href}
                     href={item.href}
                     onClick={(e) => handleNavClick(e, item.href)}
-                    className={`flex items-center justify-between px-4 py-3 rounded-xl font-sans text-sm font-medium transition-colors ${
+                    className={`group/item flex items-center justify-between px-4 py-3 rounded-xl font-sans text-sm font-medium transition-colors ${
                       isActive
                         ? 'bg-surface text-text-primary'
-                        : 'text-zinc-300 hover:bg-zinc-800 hover:text-surface'
+                        : 'text-zinc-300 hover:bg-surface hover:text-text-primary'
                     }`}
                   >
                     {item.label}
-                    <ArrowUpRight className="w-4 h-4 opacity-60" />
+                    <ArrowUpRight className="w-4 h-4 opacity-60 transition-colors group-hover/item:text-text-primary group-hover/item:opacity-100" />
                   </a>
+
                 );
               })}
 

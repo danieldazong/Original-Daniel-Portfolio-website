@@ -70,20 +70,20 @@ export default function Footer() {
             </p>
 
 
-            {/* Email CTA — fill-sweep on hover */}
+                        {/* Email CTA — white button with white outline; inverts to dark on hover */}
                         <a
               href={`https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-2.5 px-7 py-4 rounded-full bg-surface text-text-primary font-sans text-sm md:text-base font-semibold overflow-hidden transition-colors"
+              className="group relative inline-flex items-center gap-2.5 px-7 py-4 rounded-full bg-surface text-text-primary border border-white/80 font-sans text-sm md:text-base font-semibold overflow-hidden transition-colors duration-300 hover:bg-transparent hover:text-surface"
             >
 
-              <span className="absolute inset-0 bg-accent-blue translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-              <span className="relative z-10 transition-colors duration-300 group-hover:text-surface">
+              <span className="relative z-10 transition-colors duration-300">
                 {EMAIL}
               </span>
-              <ArrowUpRight className="relative z-10 w-4 h-4 transition-all duration-300 group-hover:text-surface group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <ArrowUpRight className="relative z-10 w-4 h-4 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
+
           </div>
 
           {/* Divider */}

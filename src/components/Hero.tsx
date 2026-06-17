@@ -26,8 +26,8 @@ export default function Hero() {
         </h1>
 
 
-        {/* Portrait — sits IN FRONT of the name */}
-        <div className="relative z-20 animate-fade-in-scale">
+                {/* Portrait — sits IN FRONT of the name */}
+        <div className="relative z-20 animate-hero-rise">
           <img
             id="hero-avatar"
             src={danPortrait}
