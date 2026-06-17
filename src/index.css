@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+
+
+
+
+
+@theme {
+  --color-bg: #F4F4F5;
+  --color-surface: #FFFFFF;
+  --color-text-primary: #18181B;
+  --color-text-secondary: #52525B;
+  --color-border-custom: #E4E4E7;
+  --color-accent-blue: #2563EB;
+  --color-accent-blue-hover: #1D4ED8;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-space: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-display: "Anton", "Arial Narrow", sans-serif;
+
+  
+  --animate-fade-in: fade-in 0.6s ease-out forwards;
+  --animate-slide-up: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-fade-in-scale: fade-in-scale 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Custom global focus rings and scroll styles */
+html {
+  scroll-behavior: smooth;
+  background-color: #F4F4F5;
+  color: #18181B;
+}
+
+:focus-visible {
+  outline: 2px solid #2563EB;
+  outline-offset: 2px;
+}
+
+/* Utility to ensure clean horizontal wrapping */
+.text-tight {
+  letter-spacing: -0.02em;
+}
+/* Hero hyper-display heading — Archivo Black (wide + heavy, matches reference) */
+.hero-display {
+  font-family: "Archivo Black", "Anton", sans-serif !important;
+  font-weight: 900 !important;
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+
+/* Subtle grid background matching reference (light gray lines on #F4F4F5) */
+.hero-grid-bg {
+  background-color: #F4F4F5;
+  background-image:
+    linear-gradient(to right, rgba(24, 24, 27, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(24, 24, 27, 0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* Hero layered name effect (reference: outlined + solid split behind portrait) */
+.hero-name {
+  font-family: "Archivo Black", "Anton", sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+   /* Larger but still fits the full name on screen */
+  font-size: clamp(2.5rem, 10.5vw, 11rem);
+  width: 100%;
+  padding-inline: 1rem;
+
+}
+
+
+
+/* Outlined (stroke-only) text */
+.hero-name-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px #18181B;
+}
+
+
+/* Solid filled text */
+.hero-name-solid {
+  color: #18181B;
+}
+
+@media (max-width: 768px) {
+  .hero-name-outline {
+    -webkit-text-stroke: 1.5px #18181B;
+  }
+}
+/* Portfolio / Selected Work — giant faded watermark heading */
+.portfolio-watermark {
+  font-family: "Archivo Black", "Anton", sans-serif !important;
+  font-weight: 900 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  font-size: clamp(3.5rem, 14vw, 11rem);
+  color: rgba(24, 24, 27, 0.045);
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Section label "/SELECTED WORK" — heavy but not over-black */
+.portfolio-heading {
+  font-family: "Space Grotesk", "Inter", sans-serif !important;
+  font-weight: 550 !important;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.95;
+}
+
+

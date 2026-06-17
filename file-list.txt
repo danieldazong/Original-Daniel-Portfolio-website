@@ -1,0 +1,16 @@
+﻿src\App.tsx
+src\data.ts
+src\index.css
+src\main.tsx
+src\types.ts
+src\vite-env.d.ts
+src\assets\images\dan-portfolio.png
+src\assets\images\dan-portfolio2.webp
+src\assets\images\developer_avatar_1781264728357.jpg
+src\components\About.tsx
+src\components\Blog.tsx
+src\components\Contact.tsx
+src\components\Experience.tsx
+src\components\Footer.tsx
+src\components\Header.tsx
+src\components\Hero.tsx
