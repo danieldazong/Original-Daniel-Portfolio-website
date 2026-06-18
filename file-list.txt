@@ -7,6 +7,17 @@ src\vite-env.d.ts
 src\assets\images\dan-portfolio.png
 src\assets\images\dan-portfolio2.webp
 src\assets\images\developer_avatar_1781264728357.jpg
+src\assets\images\favicon.webp
+src\assets\images\Logo.webp
+src\assets\images\mackbook-automation.png
+src\assets\images\mobile app.webp
+src\assets\images\tablete-automation.png
+src\assets\images\workfine-App-laptop.png
+src\assets\images\workfine-App-laptop2.png
+src\assets\images\projects\automation1.webp
+src\assets\images\projects\automation2.webp
+src\assets\images\projects\mobile-app.webp
+src\assets\images\projects\web-app.webp
 src\components\About.tsx
 src\components\Blog.tsx
 src\components\Contact.tsx
@@ -14,3 +25,5 @@ src\components\Experience.tsx
 src\components\Footer.tsx
 src\components\Header.tsx
 src\components\Hero.tsx
+src\components\Projects.tsx
+src\components\Reveal.tsx

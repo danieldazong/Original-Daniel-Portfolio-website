@@ -66,6 +66,32 @@
   opacity: 0;
   animation: hero-rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
 }
+/* ───────────────────────────────────────────────
+   "Back to top" arrow — slow, gentle, continuous
+   up/down float (breathing motion). Pauses on hover
+   so the button's own hover lift takes over cleanly.
+   Auto-disables for reduced-motion users.
+─────────────────────────────────────────────── */
+@keyframes back-to-top-float {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+
+.animate-back-to-top {
+  animation: back-to-top-float 2s ease-in-out infinite;
+}
+
+/* Stop the loop on hover so the single hover-lift reads cleanly */
+.group:hover .animate-back-to-top {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-back-to-top {
+    animation: none;
+  }
+}
 
 
 /* Custom global focus rings and scroll styles */

@@ -31,14 +31,21 @@ export default function Header() {
   const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
-  // Position/size of the sliding white pill, measured from the hovered item
+    // Index of the currently active section within NAV_ITEMS (for the resting pill position)
+  const activeIndex = NAV_ITEMS.findIndex((i) => i.href === `#${activeSection}`);
+
+  // The pill follows the hovered item; when nothing is hovered it rests on the active item.
+  const indicatorIndex = hoverIndex !== null ? hoverIndex : activeIndex;
+
+  // Position/size of the sliding white pill, measured from the target item
   const indicator =
-    hoverIndex !== null && itemRefs.current[hoverIndex]
+    indicatorIndex >= 0 && itemRefs.current[indicatorIndex]
       ? {
-          top: itemRefs.current[hoverIndex]!.offsetTop,
-          height: itemRefs.current[hoverIndex]!.offsetHeight,
+          top: itemRefs.current[indicatorIndex]!.offsetTop,
+          height: itemRefs.current[indicatorIndex]!.offsetHeight,
         }
       : null;
+
 
 
   const currentLabel = activeSection

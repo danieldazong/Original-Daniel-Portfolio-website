@@ -179,14 +179,15 @@ export default function Footer() {
 
 
 
-              <button
+                            <button
                 onClick={scrollToTop}
                 className="group inline-flex items-center gap-1.5 font-sans text-xs font-semibold text-zinc-400 hover:text-surface transition-colors cursor-pointer"
                 aria-label="Scroll back to top"
               >
                 Back to top
-                <ArrowUp className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
+                <ArrowUp className="animate-back-to-top w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
               </button>
+
             </div>
           </div>
 
