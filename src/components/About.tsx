@@ -55,7 +55,7 @@ export default function About() {
             <div className="relative w-full max-w-[320px] aspect-[3/4] rounded-2xl overflow-hidden border border-border-custom shadow-xl">
               <img
                 src={danPortrait}
-                alt="Daniel Dazong — AI Solutions Engineer"
+                alt="Daniel Dazong — AI Solutions Architect"
                 className="w-full h-full object-cover select-none"
                 referrerPolicy="no-referrer"
               />
