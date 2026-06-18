@@ -5,10 +5,11 @@
 
 import { WorkExperience, BlogPost, SkillCategory, Project, Capability } from './types';
 
-import automation1 from './assets/images/projects/automation1.webp';
-import automation2 from './assets/images/projects/automation2.webp';
-import webApp from './assets/images/projects/web-app.webp';
-import mobileApp from './assets/images/projects/mobile-app.webp';
+import automation1 from './assets/images/image opt/automation31.webp';
+import automation2 from './assets/images/image opt/automation3.webp';
+import webApp from './assets/images/image opt/web-app3.webp';
+import mobileApp from './assets/images/image opt/mobile-app3.webp';
+
 
 
 
@@ -46,19 +47,19 @@ export const PROJECTS: Project[] = [
     link: "#"
   },
   {
-    id: "proj-2",
-    title: "AI Video Content Automation for TikTok, Instagram & YouTube",
-    category: "real",
-    image: automation2,
-    tags: ["n8n", "AI", "Content Automation"],
-    link: "#"
-  },
-  {
     id: "proj-3",
     title: "Work & Project Management Platform",
     category: "exploration",
     image: webApp,
     tags: ["React", "Next.js", "Node.js"],
+    link: "#"
+  },
+  {
+    id: "proj-2",
+    title: "AI Video Content Automation for TikTok, Instagram & YouTube",
+    category: "real",
+    image: automation2,
+    tags: ["n8n", "AI", "Content Automation"],
     link: "#"
   },
   {
@@ -70,6 +71,7 @@ export const PROJECTS: Project[] = [
     link: "#"
   }
 ];
+
 
 
 export const BIO_PARAGRAPHS = [

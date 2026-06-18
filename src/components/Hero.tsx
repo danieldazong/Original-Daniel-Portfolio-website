@@ -4,7 +4,8 @@
  */
 
 import { ArrowUpRight } from 'lucide-react';
-import danPortrait from '../assets/images/dan-portfolio2.webp';
+import danPortrait from '../assets/images/image opt/dan-portfolio3.webp';
+
 
 
 export default function Hero() {
