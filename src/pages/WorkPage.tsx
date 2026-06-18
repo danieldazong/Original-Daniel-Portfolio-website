@@ -78,7 +78,7 @@ export default function WorkPage() {
       : PROJECTS.filter((p) => p.category === activeFilter);
 
   return (
-    <div className="min-h-screen bg-bg text-text-primary antialiased font-sans">
+           <div className="min-h-screen bg-bg text-text-primary antialiased font-sans">
       <Header />
 
       <main>

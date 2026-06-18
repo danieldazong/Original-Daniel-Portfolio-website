@@ -3,8 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { useState, useEffect, useRef, MouseEvent } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowUpRight, MoreHorizontal, X } from 'lucide-react';
 import logo from '../assets/images/Logo.webp';
+
 
 
 interface NavItem {
@@ -19,6 +21,8 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 export default function Header() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [activeSection, setActiveSection] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
@@ -101,6 +105,18 @@ export default function Header() {
       document.removeEventListener('keydown', onKey);
     };
   }, []);
+  // Logo click: if on another page (e.g. /work) → go home; if already home → scroll to top (Hero)
+  const handleLogoClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    setActiveSection('');
+    if (location.pathname !== '/') {
+      navigate('/');
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
 
   const handleNavClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -128,17 +144,14 @@ export default function Header() {
                <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
 
 
-        {/* Name/Logo — top left */}
+                {/* Name/Logo — top left */}
         <a
           id="nav-logo"
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            setActiveSection('');
-          }}
-          className="flex items-center gap-2.5 group focus:outline-none"
+          href="/"
+          onClick={handleLogoClick}
+          className="flex items-center gap-2.5 group focus:outline-none cursor-pointer"
         >
+
                     <img
             src={logo}
             alt="Daniel Dazong logo"
