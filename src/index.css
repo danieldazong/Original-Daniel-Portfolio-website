@@ -3,9 +3,6 @@
 
 
 
-
-
-
 @theme {
   --color-bg: #F4F4F5;
   --color-surface: #FFFFFF;
@@ -168,5 +165,35 @@ html {
   letter-spacing: -0.01em;
   line-height: 0.95;
 }
+/* ───────────────────────────────────────────────
+   Global text selection — placed last, NO @layer,
+   so it sits outside Tailwind's cascade layers and
+   always wins. Default: black highlight, white text.
+─────────────────────────────────────────────── */
+::selection {
+  background-color: #000000;
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+}
+::-moz-selection {
+  background-color: #000000;
+  color: #ffffff;
+}
 
+/* Dark sections → light highlight, dark text */
+.bg-bg ::selection,
+.bg-zinc-900 ::selection,
+#contact ::selection,
+#main-footer ::selection {
+  background-color: #ffffff;
+  color: #18181b;
+  -webkit-text-fill-color: #18181b;
+}
+.bg-bg ::-moz-selection,
+.bg-zinc-900 ::-moz-selection,
+#contact ::-moz-selection,
+#main-footer ::-moz-selection {
+  background-color: #ffffff;
+  color: #18181b;
+}
 

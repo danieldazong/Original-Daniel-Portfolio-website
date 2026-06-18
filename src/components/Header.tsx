@@ -203,14 +203,15 @@ export default function Header() {
 
           </button>
 
-          {/* Dropdown panel */}
+                    {/* Dropdown panel */}
           <div
-            className={`absolute left-1/2 -translate-x-1/2 mt-3 w-56 origin-top rounded-2xl bg-text-primary text-surface shadow-2xl p-2 transition-all duration-300 ${
+            className={`absolute left-1/2 -translate-x-1/2 mt-3 w-56 origin-top rounded-2xl bg-text-primary text-surface border border-white/15 shadow-2xl p-2 transition-all duration-300 ${
               menuOpen
                 ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
                 : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
             }`}
           >
+
                     <nav
               ref={navRef}
               className="relative flex flex-col"

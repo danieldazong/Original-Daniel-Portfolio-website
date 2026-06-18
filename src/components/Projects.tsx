@@ -123,9 +123,9 @@ export default function Projects() {
   const remaining = filtered.length - COLLAPSED_COUNT;
 
   return (
-    <section
+        <section
       id="work"
-      className="py-24 md:py-32 hero-grid-bg relative overflow-hidden"
+      className="pt-8 pb-20 md:py-32 hero-grid-bg relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative">
 
@@ -151,9 +151,9 @@ export default function Projects() {
           </h2>
         </div>
 
-                {/* Filter tabs (left) + View All Work button (right) on one row */}
+                                {/* Filter tabs + View All Work — stacked on mobile, single row on desktop */}
         <div
-          className="flex items-center justify-between gap-4 mb-10"
+          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 sm:gap-4 mb-10"
                     style={{
             transition:
               'opacity 1.2s cubic-bezier(0.16,1,0.3,1), transform 1.2s cubic-bezier(0.16,1,0.3,1)',
@@ -165,8 +165,8 @@ export default function Projects() {
 
         >
 
-          {/* Filter tabs — text links with underline on active */}
-          <div className="flex flex-wrap items-center gap-6">
+                    {/* Filter tabs — centered on mobile, left-aligned on desktop */}
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-5 sm:gap-6">
             {PROJECT_FILTERS.map((filter) => (
               <button
                 key={filter.key}
@@ -188,15 +188,16 @@ export default function Projects() {
             ))}
           </div>
 
-          {/* View All Work — pill button, right-aligned */}
+          {/* View All Work — full-width on mobile, pill on desktop */}
           <a
             href="#work"
-            className="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border-custom bg-surface font-sans text-sm font-semibold text-text-primary hover:border-text-primary/40 transition-colors whitespace-nowrap"
+            className="group inline-flex w-full sm:w-auto items-center justify-center sm:justify-start gap-2 px-4 py-2.5 sm:py-2 rounded-full border border-border-custom bg-surface font-sans text-sm font-semibold text-text-primary hover:border-text-primary/40 transition-colors whitespace-nowrap"
           >
             View All Work
             <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
         </div>
+
 
         {/* Project grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

@@ -9,11 +9,11 @@ import danPortrait from '../assets/images/dan-portfolio2.webp';
 
 export default function Hero() {
   return (
-    <section
+       <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center pt-24 pb-12 hero-grid-bg overflow-hidden"
+      className="relative min-h-[88vh] md:min-h-screen flex items-start md:items-center justify-center pt-20 md:pt-24 pb-12 hero-grid-bg overflow-hidden"
     >
-      
+
       {/* Layered Hero Composition */}
       <div className="relative w-full max-w-6xl mx-auto px-6 flex items-center justify-center">
                 {/* Giant Name — sits BEHIND the portrait */}
@@ -40,10 +40,10 @@ export default function Hero() {
 
                                                      {/* Bottom content row — aligned to the same max-w-7xl column as the sections below */}
       <div className="absolute bottom-10 left-0 right-0 z-30">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-end justify-between gap-6">
+                <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col sm:flex-row items-center sm:items-end justify-center sm:justify-between gap-6 text-center sm:text-left">
 
-          {/* Title Block — bottom left */}
-          <div className="max-w-xs">
+          {/* Title Block — centered on mobile, bottom-left on desktop */}
+          <div className="max-w-xs mx-auto sm:mx-0">
             <h2 className="font-space font-bold text-2xl md:text-3xl text-text-primary tracking-tight mb-2">
               AI Solutions Architect
             </h2>
@@ -51,6 +51,7 @@ export default function Hero() {
               Designing digital products that are clear, usable, and conversion focused.
             </p>
           </div>
+
 
           {/* Counterweight Block — bottom right */}
           <div className="text-right hidden sm:block animate-fade-in">

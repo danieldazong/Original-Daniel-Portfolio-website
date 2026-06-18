@@ -218,14 +218,17 @@ export default function Experience() {
                 })}
               </div>
 
-              {/* CTA */}
-              <a
-                href="#contact"
-                className="group inline-flex items-center gap-2 mt-12 font-sans text-sm font-semibold text-text-primary"
-              >
-                Let's work together
-                <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </a>
+                            {/* CTA — centered on mobile, left-aligned on desktop */}
+              <div className="flex justify-center lg:justify-start">
+                <a
+                  href="#contact"
+                  className="group inline-flex items-center gap-2 mt-12 font-sans text-sm font-semibold text-text-primary"
+                >
+                  Let's work together
+                  <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
+              </div>
+
             </div>
 
           </div>
