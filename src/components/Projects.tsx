@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { useState, useEffect, useRef, ReactNode, FC } from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowUpRight, Plus, Minus } from 'lucide-react';
 import { PROJECTS, PROJECT_FILTERS } from '../data';
 
@@ -188,14 +189,15 @@ export default function Projects() {
             ))}
           </div>
 
-          {/* View All Work — full-width on mobile, pill on desktop */}
-          <a
-            href="#work"
+                    {/* View All Work — navigates to the dedicated /work page */}
+          <Link
+            to="/work"
             className="group inline-flex w-full sm:w-auto items-center justify-center sm:justify-start gap-2 px-4 py-2.5 sm:py-2 rounded-full border border-border-custom bg-surface font-sans text-sm font-semibold text-text-primary hover:border-text-primary/40 transition-colors whitespace-nowrap"
           >
             View All Work
             <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </a>
+          </Link>
+
         </div>
 
 
