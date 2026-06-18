@@ -191,13 +191,18 @@ export default function Experience() {
                           opacity: isOpen ? 1 : 0,
                         }}
                       >
-                        <div className="pt-5 pb-2 space-y-2">
+                                                <div className="pt-5 pb-2 space-y-2">
                           {exp.bulletPoints.map((bullet, i) => (
-                            <p key={i} className="font-sans text-sm text-text-secondary leading-relaxed">
-                              {bullet}
+                            <p
+                              key={i}
+                              className="font-sans text-sm text-text-secondary leading-relaxed pl-4 -indent-4"
+                            >
+                              <span className="text-text-secondary">- </span>
+                              {bullet.replace(/^[-•]\s*/, '')}
                             </p>
                           ))}
                         </div>
+
 
                         <div className="flex items-baseline gap-3 mt-6 pt-4 pb-2 border-t border-border-custom/60">
                           <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-text-secondary/50 shrink-0 pt-px">

@@ -123,7 +123,7 @@ export const EXPERIENCE_DATA: WorkExperience[] = [
     period: "2024 — PRES",
     bulletPoints: [
       "Designed and delivered AI agents, workflow automations, and internal tools that reduced manual operational effort by 65%+.",
-      "Built 15+ end-to-end automation solutions and RAG-based AI assistants using n8n, LLMs, APIs, and databases to streamline intake, routing, and customer communication."
+      "- Built 15+ end-to-end automation solutions and RAG-based AI assistants using n8n, LLMs, APIs, and databases to streamline intake, routing, and customer communication."
     ],
     skillsUsed: ["n8n", "OpenAI", "LangChain", "RAG", "Python", "APIs"]
   },
