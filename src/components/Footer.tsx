@@ -4,7 +4,8 @@
  */
 
 import { useEffect, useRef, useState, MouseEvent } from 'react';
-import { ArrowUpRight, ArrowUp, Github, Linkedin, Mail } from 'lucide-react';
+import { ArrowUpRight, ArrowUp, Github, Linkedin, Mail, Download } from 'lucide-react';
+
 
 const EMAIL = 'dazong.daniel@gmail.com';
 const LINKEDIN_URL = 'https://www.linkedin.com/in/danieldazong';
@@ -70,24 +71,48 @@ export default function Footer() {
             </p>
 
 
-                                    {/* Email CTA — white w/ white outline; black elastic fill slides up on hover */}
-                        <a
-              href={`https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group/cta relative inline-flex items-center gap-2.5 px-7 py-4 rounded-full bg-surface text-text-primary border border-white/80 font-sans text-sm md:text-base font-semibold overflow-hidden transition-colors duration-300"
-            >
-              {/* Black elastic fill — slides up on hover, retracts down on leave */}
-              <span
-                aria-hidden="true"
-                className="absolute inset-0 z-0 bg-text-primary translate-y-full group-hover/cta:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
-              />
+                                                                       {/* CTA row — email + download resume, side by side */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
 
-              <span className="relative z-10 transition-colors duration-300 group-hover/cta:text-surface">
-                {EMAIL}
-              </span>
-              <ArrowUpRight className="relative z-10 w-4 h-4 transition-all duration-300 group-hover/cta:text-surface group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
-            </a>
+              {/* Email CTA — white w/ white outline; black elastic fill slides up on hover */}
+              <a
+                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/cta relative inline-flex items-center gap-2.5 px-7 py-4 rounded-full bg-surface text-text-primary border border-white/80 font-sans text-sm md:text-base font-semibold overflow-hidden transition-colors duration-300"
+              >
+                {/* Black elastic fill — slides up on hover, retracts down on leave */}
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 z-0 bg-text-primary translate-y-full group-hover/cta:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+                />
+
+                <span className="relative z-10 transition-colors duration-300 group-hover/cta:text-surface">
+                  {EMAIL}
+                </span>
+                <ArrowUpRight className="relative z-10 w-4 h-4 transition-all duration-300 group-hover/cta:text-surface group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
+              </a>
+
+              {/* Download Resume CTA — ghost/outline so it stays secondary to email; white elastic fill slides up on hover */}
+              <a
+                href="/Daniel-Dazong-Resume.pdf"
+                download="Daniel-Dazong-Resume.pdf"
+                className="group/resume relative inline-flex items-center gap-2.5 px-7 py-4 rounded-full bg-transparent text-zinc-300 border border-zinc-700 font-sans text-sm md:text-base font-semibold overflow-hidden transition-colors duration-300 hover:border-surface"
+              >
+                {/* White elastic fill — slides up on hover, retracts down on leave */}
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 z-0 bg-surface translate-y-full group-hover/resume:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+                />
+
+                <span className="relative z-10 transition-colors duration-300 group-hover/resume:text-text-primary">
+                  Download Resume
+                </span>
+                <Download className="relative z-10 w-4 h-4 transition-all duration-300 group-hover/resume:text-text-primary group-hover/resume:translate-y-0.5" />
+              </a>
+
+            </div>
+
 
 
           </div>
