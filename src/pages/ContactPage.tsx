@@ -87,7 +87,7 @@ export default function ContactPage() {
               Tell me a little about you and your project. I will get back to you shortly.
             </p>
 
-            <div className="max-w-2xl mx-auto">
+                              <div id="contact-form" className="max-w-2xl mx-auto">
               {status === 'success' ? (
                 <div className="rounded-2xl border border-border-custom bg-surface p-10 text-center">
                   <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-text-primary text-surface">
