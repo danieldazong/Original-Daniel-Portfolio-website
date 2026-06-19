@@ -2,7 +2,7 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-import { useState, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowUpRight, Check, Loader2 } from 'lucide-react';
 import Header from '../components/Header';
@@ -24,6 +24,19 @@ type Status = 'idle' | 'submitting' | 'success' | 'error';
 export default function ContactPage() {
   const [status, setStatus] = useState<Status>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+
+    // After a successful submit, scroll the "Message sent" card into view so the
+  // user lands on the confirmation (not the footer) regardless of prior scroll.
+  useEffect(() => {
+    if (status === 'success') {
+      const el = document.getElementById('contact-form');
+      if (el) {
+        const offset = 90;
+        const top = el.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    }
+  }, [status]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
