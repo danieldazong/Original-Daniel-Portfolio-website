@@ -3,14 +3,45 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useEffect, useRef, useState } from 'react';
-import { ArrowUpRight, ArrowRight, Plus } from 'lucide-react';
+import { useEffect, useRef, useState, MouseEvent } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { ArrowUpRight, Plus } from 'lucide-react';
 import { EXPERIENCE_DATA, CAPABILITIES } from '../data';
 
+
 export default function Experience() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const sectionRef = useRef<HTMLElement>(null);
+  const capsRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [openId, setOpenId] = useState<string | null>(EXPERIENCE_DATA[0]?.id ?? null);
+  // Which capability is tapped-open on touch/mobile (desktop still uses hover)
+  const [openCapId, setOpenCapId] = useState<string | null>(null);
+
+  const toggleCap = (id: string) =>
+    setOpenCapId((prev) => (prev === id ? null : id));
+
+
+  // "Let's work together" CTA — mirrors the header CTA behaviour:
+  // - on any page other than /contact → navigate to /contact
+  // - if already on /contact → smooth-scroll to the form (no dead jump)
+  const handleCtaClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (location.pathname === '/contact') {
+      const formEl = document.getElementById('contact-form');
+      if (formEl) {
+        const offset = 90;
+        const top = formEl.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    } else {
+      navigate('/contact');
+    }
+  };
+
 
     useEffect(() => {
     const observer = new IntersectionObserver(
@@ -24,6 +55,21 @@ export default function Experience() {
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
+  }, []);
+
+    // Close any tapped-open capability when the user taps outside the list
+  useEffect(() => {
+    const onPointerDown = (e: globalThis.MouseEvent | TouchEvent) => {
+      if (capsRef.current && !capsRef.current.contains(e.target as Node)) {
+        setOpenCapId(null);
+      }
+    };
+    document.addEventListener('mousedown', onPointerDown);
+    document.addEventListener('touchstart', onPointerDown);
+    return () => {
+      document.removeEventListener('mousedown', onPointerDown);
+      document.removeEventListener('touchstart', onPointerDown);
+    };
   }, []);
 
 
@@ -84,11 +130,16 @@ export default function Experience() {
                 security — turning operational complexity into scalable, intelligent solutions.
               </p>
 
-              <div className="flex flex-col">
-                {CAPABILITIES.map((cap, index) => (
-                  <div
+                            <div ref={capsRef} className="flex flex-col">
+                {CAPABILITIES.map((cap, index) => {
+                  const capOpen = openCapId === cap.id;
+                  return (
+                  <button
                     key={cap.id}
-                    className="group relative flex items-center justify-between py-6 border-t border-border-custom last:border-b cursor-default"
+                    type="button"
+                    onClick={() => toggleCap(cap.id)}
+                    aria-expanded={capOpen}
+                    className="group relative w-full text-left flex items-center justify-between py-6 border-t border-border-custom last:border-b cursor-pointer"
                     style={{
                       transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1), opacity 0.6s',
                       transitionDelay: `${index * 0.08}s`,
@@ -97,23 +148,35 @@ export default function Experience() {
                     }}
                   >
                     <div className="flex flex-col">
-                      <h3 className="font-space font-bold text-xl md:text-2xl text-text-primary tracking-tight group-hover:translate-x-1 transition-transform duration-300">
+                      <h3
+                        className={`font-space font-bold text-xl md:text-2xl text-text-primary tracking-tight transition-transform duration-300 group-hover:translate-x-1 ${
+                          capOpen ? 'translate-x-1' : ''
+                        }`}
+                      >
                         {cap.title}
                       </h3>
-                      <p className="font-sans text-sm text-text-secondary mt-1 opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-10 group-hover:mt-2 transition-all duration-300">
+                      <p
+                        className={`font-sans text-sm text-text-secondary overflow-hidden transition-all duration-300 group-hover:opacity-100 group-hover:max-h-16 group-hover:mt-2 ${
+                          capOpen ? 'opacity-100 max-h-16 mt-2' : 'opacity-0 max-h-0 mt-1'
+                        }`}
+                      >
                         {cap.description}
                       </p>
                     </div>
 
-                    {/* Hover cue — number fades out, arrow slides in */}
+                    {/* Index number — turns accent when open or hovered */}
                     <div className="relative flex items-center justify-center w-8 shrink-0">
-                      <span className="absolute font-mono text-sm text-text-secondary/60 transition-all duration-300 group-hover:opacity-0 group-hover:-translate-x-1">
+                      <span
+                        className={`font-mono text-sm transition-colors duration-300 group-hover:text-accent-blue ${
+                          capOpen ? 'text-accent-blue' : 'text-text-secondary/60'
+                        }`}
+                      >
                         0{index + 1}
                       </span>
-                      <ArrowRight className="absolute w-4 h-4 text-accent-blue opacity-0 translate-x-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
                     </div>
-                  </div>
-                ))}
+                  </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -218,16 +281,18 @@ export default function Experience() {
                 })}
               </div>
 
-                            {/* CTA — centered on mobile, left-aligned on desktop */}
+                                          {/* CTA — centered on mobile, left-aligned on desktop — opens the Contact page */}
               <div className="flex justify-center lg:justify-start">
                 <a
-                  href="#contact"
-                  className="group inline-flex items-center gap-2 mt-12 font-sans text-sm font-semibold text-text-primary"
+                  href="/contact"
+                  onClick={handleCtaClick}
+                  className="group inline-flex items-center gap-2 mt-12 font-sans text-sm font-semibold text-text-primary cursor-pointer"
                 >
                   Let's work together
                   <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </a>
               </div>
+
 
             </div>
 
