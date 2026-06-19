@@ -26,6 +26,8 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+  const [footerVisible, setFooterVisible] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
   const pillRef = useRef<HTMLDivElement>(null);
    const labelRef = useRef<HTMLSpanElement>(null);
   const [labelWidth, setLabelWidth] = useState<number>(0);
@@ -105,6 +107,40 @@ export default function Header() {
       document.removeEventListener('keydown', onKey);
     };
   }, []);
+
+    // Watch the footer ("Have a project in mind?" / #contact). Hide the floating CTA
+  // while the footer is on screen so it never collides with the footer's own buttons.
+  useEffect(() => {
+    const footerEl = document.getElementById('contact');
+    if (!footerEl) {
+      setFooterVisible(false);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => setFooterVisible(entry.isIntersecting),
+      { threshold: 0, rootMargin: '0px 0px -10% 0px' }
+    );
+    observer.observe(footerEl);
+    return () => observer.disconnect();
+  }, [location.pathname]);
+
+    // Scroll-aware auto-hide: hide the floating CTA while the user is actively
+  // scrolling (so it never covers content mid-page), then bring it back shortly
+  // after scrolling stops. Keeps the button available without colliding with text.
+  useEffect(() => {
+    let stopTimer: ReturnType<typeof setTimeout>;
+    const onScroll = () => {
+      setIsScrolling(true);
+      clearTimeout(stopTimer);
+      stopTimer = setTimeout(() => setIsScrolling(false), 220);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      clearTimeout(stopTimer);
+    };
+  }, []);
+
   // Logo click: if on another page (e.g. /work) → go home; if already home → scroll to top (Hero)
   const handleLogoClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -151,7 +187,8 @@ export default function Header() {
     }
   };
 
-  return (
+    return (
+    <>
         <header
       id="main-header"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -160,6 +197,7 @@ export default function Header() {
           : 'py-5 bg-transparent border-b border-transparent'
       }`}
     >
+
 
                <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
 
@@ -351,7 +389,36 @@ export default function Header() {
 
 
 
-      </div>
+                  </div>
     </header>
+
+                  {/* Mobile-only floating "Let's collaborate" CTA — fixed to bottom-center, OUTSIDE the header so it anchors to the viewport bottom (hidden on md and up). Hidden on /contact (redundant) and auto-hidden when the footer is in view (avoids colliding with footer/in-page buttons). Stronger floating treatment (ring + heavier shadow) so it never reads as an in-page content button. */}
+      {location.pathname !== '/contact' && (
+        <a
+          id="nav-cta-mobile"
+          href="/contact"
+          onClick={handleCtaClick}
+          aria-label="Let's collaborate"
+                    className={`group/fab md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] inline-flex items-center gap-2 whitespace-nowrap px-6 py-3.5 rounded-full bg-text-primary text-surface font-sans text-sm font-semibold shadow-2xl ring-1 ring-white/15 active:scale-95 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            footerVisible || isScrolling
+              ? 'opacity-0 translate-y-6 pointer-events-none'
+              : 'opacity-100 translate-y-0 pointer-events-auto'
+          }`}
+          style={{ marginBottom: 'env(safe-area-inset-bottom)' }}
+        >
+          {/* Subtle "available" pulse dot */}
+          <span className="flex h-2 w-2">
+            <span className="absolute inline-flex h-2 w-2 rounded-full bg-white opacity-60 animate-ping" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+          </span>
+
+          <span>Let's collaborate</span>
+          <ArrowUpRight className="w-4 h-4" />
+        </a>
+      )}
+    </>
   );
 }
+
+
+

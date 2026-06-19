@@ -37,7 +37,7 @@ function Home() {
   return (
     <div className="min-h-screen bg-bg text-text-primary antialiased font-sans">
       <Header />
-      <main>
+      <main className="pb-28 md:pb-0">
         <Hero />
         <Projects />
         <Experience />
@@ -46,6 +46,7 @@ function Home() {
     </div>
   );
 }
+
 
 function AnimatedRoutes() {
   const location = useLocation();

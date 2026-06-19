@@ -81,7 +81,7 @@ export default function WorkPage() {
            <div className="min-h-screen bg-bg text-text-primary antialiased font-sans">
       <Header />
 
-      <main>
+            <main className="pb-28 md:pb-0">
         <section
           id="work"
           className="pt-28 pb-20 md:pt-36 md:pb-32 hero-grid-bg relative overflow-hidden"
