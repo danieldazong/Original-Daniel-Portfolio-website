@@ -17,6 +17,8 @@ import Experience from './components/Experience';
 import Footer from './components/Footer';
 import Projects from './components/Projects';
 import WorkPage from './pages/WorkPage';
+import ContactPage from './pages/ContactPage';
+
 
 // Shared slide variants — forward goes IN from the right, leaves OUT to the right.
 const pageVariants = {
@@ -53,7 +55,7 @@ function AnimatedRoutes() {
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, [location.pathname]);
 
-      return (
+  return (
     <AnimatePresence mode="wait" initial={false}>
       <div key={location.pathname}>
         <Routes location={location}>
@@ -85,12 +87,26 @@ function AnimatedRoutes() {
               </motion.div>
             }
           />
+          <Route
+            path="/contact"
+            element={
+              <motion.div
+                variants={pageVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={pageTransition}
+              >
+                <ContactPage />
+              </motion.div>
+            }
+          />
         </Routes>
       </div>
     </AnimatePresence>
   );
-
 }
+
 
 export default function App() {
   // Smooth scroll (Lenis)

@@ -284,10 +284,10 @@ export default function Header() {
               })}
 
 
-                                       {/* CTA inside dropdown — distinct lift + subtle fill shift (Option A) */}
+                                                                             {/* CTA inside dropdown — distinct lift + subtle fill shift (Option A) — opens the Contact page */}
                             <a
-                href="#contact"
-                onClick={(e) => handleNavClick(e, '#contact')}
+                href="/contact"
+                onClick={(e) => { e.preventDefault(); setMenuOpen(false); setActiveSection(''); navigate('/contact'); }}
                 onMouseEnter={() => setHoverIndex(null)}
                 className="group/talk relative z-10 mt-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-zinc-800 text-surface font-sans text-sm font-semibold border border-zinc-700 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-zinc-700 hover:border-zinc-600 hover:-translate-y-0.5 hover:shadow-lg"
               >
@@ -296,17 +296,19 @@ export default function Header() {
               </a>
 
 
+
             </nav>
           </div>
         </div>
 
-                        {/* Let's Talk — top right (hidden on small screens) */}
+                                                {/* Let's Talk — top right (hidden on small screens) — opens the Contact page */}
                 <a
           id="nav-cta-desktop"
-          href="#contact"
-          onClick={(e) => handleNavClick(e, '#contact')}
+          href="/contact"
+          onClick={(e) => { e.preventDefault(); setMenuOpen(false); setActiveSection(''); navigate('/contact'); }}
           className="group/cta relative hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-text-primary text-surface font-sans text-xs font-semibold overflow-hidden shadow-sm border border-transparent hover:border-text-primary transition-colors duration-300"
         >
+
 
           {/* White elastic fill — slides up on hover, retracts down on leave */}
           <span
