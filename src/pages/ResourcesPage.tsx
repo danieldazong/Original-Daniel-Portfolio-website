@@ -135,14 +135,15 @@ export default function ResourcesPage() {
                   onClick={() => setSelected(resource)}
                   className="group flex flex-col text-left rounded-none border border-border-custom bg-surface overflow-hidden hover:border-text-primary/30 hover:shadow-md transition-all duration-300 cursor-pointer"
                 >
-                  <div className="relative aspect-[4/3] overflow-hidden">
+                                    <div className="relative aspect-[4/3] overflow-hidden bg-bg">
                     <img
                       src={resource.image}
                       alt={resource.title}
                       decoding="sync"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 select-none"
+                      className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105 select-none"
                       referrerPolicy="no-referrer"
                     />
+
                     <span className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded font-mono text-[10px] font-semibold uppercase tracking-wider bg-surface/90 backdrop-blur text-text-primary border border-border-custom">
                       {resource.resourceType === 'automation' ? 'Automation' : 'Notion'}
                     </span>

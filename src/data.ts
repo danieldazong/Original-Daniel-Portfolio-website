@@ -11,6 +11,12 @@ import automation2 from './assets/images/image opt/automation3.webp';
 import webApp from './assets/images/image opt/web-app3.webp';
 import mobileApp from './assets/images/image opt/mobile-app3.webp';
 
+import resEmailResponder from './assets/images/projects/AI Email Auto-Responder with Ollama.webp';
+import resOrderManagement from './assets/images/projects/AI Order Management n8n Workflow.webp';
+import resCustomerOrder from './assets/images/projects/AI-Powered Customer Order Management Automation System.webp';
+import resOnboarding from './assets/images/projects/Automated Employee Onboarding Account Provisioning n8n.webp';
+
+
 
 
 
@@ -41,7 +47,7 @@ export const RESOURCES: Resource[] = [
     id: 'res-1',
     title: 'AI Email Auto-Responder with Ollama',
     resourceType: 'automation',
-    image: automation1,
+    image: resEmailResponder,
     tags: ['n8n', 'Workflow', 'Free'],
     fileUrl: 'https://drive.google.com/uc?export=download&id=1Ik56pXl4BSRJ9UzPvPD3D03Jgg4j0tmz',
     fileName: 'AI-Email-Auto-Responder-with-Ollama.json'
@@ -50,7 +56,7 @@ export const RESOURCES: Resource[] = [
     id: 'res-2',
     title: 'AI Order Management n8n Workflow',
     resourceType: 'automation',
-    image: automation2,
+    image: resOrderManagement,
     tags: ['n8n', 'Workflow', 'Free'],
     fileUrl: 'https://drive.google.com/uc?export=download&id=1TzRj1bHJqqRBaGWFiRvqeyj0Tu2jCqHj',
     fileName: 'AI-Order-Management-n8n-Workflow.json'
@@ -59,7 +65,7 @@ export const RESOURCES: Resource[] = [
     id: 'res-3',
     title: 'AI-Powered Customer Order Management Automation System',
     resourceType: 'automation',
-    image: webApp,
+    image: resCustomerOrder,
     tags: ['n8n', 'Workflow', 'Free'],
     fileUrl: 'https://drive.google.com/uc?export=download&id=17Bk3m5W84VoRp_D_w2sLVQuemFXnNmtq',
     fileName: 'AI-Powered-Customer-Order-Management-Automation-System.json'
@@ -68,12 +74,13 @@ export const RESOURCES: Resource[] = [
     id: 'res-4',
     title: 'Automated Employee Onboarding Account Provisioning n8n',
     resourceType: 'automation',
-    image: mobileApp,
+    image: resOnboarding,
     tags: ['n8n', 'Workflow', 'Free'],
     fileUrl: 'https://drive.google.com/uc?export=download&id=1RJsLR0aZ-_HoKIfFaYVCBgHSRs6g_KdO',
     fileName: 'Automated-Employee-Onboarding-Account-Provisioning-n8n.json'
   }
 ];
+
 
 
 

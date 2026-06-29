@@ -351,19 +351,31 @@ export default function Header() {
                   </a>
                 );
               })}
-                            {/* Resources — real route link (not an in-page anchor). Placed below the
-                  anchor nav items so it never interferes with the scroll-spy sliding pill. */}
-              <a
+                            {/* Resources — real route link (not an in-page anchor). Registered as the
+                  next item in itemRefs so it shares the exact same sliding-pill hover
+                  effect as the anchor nav items above. */}
+                            <a
                 href="/resources"
+                ref={(el) => { itemRefs.current[NAV_ITEMS.length] = el; }}
                 onClick={handleResourcesClick}
-                onMouseEnter={() => setHoverIndex(null)}
+                onMouseEnter={() => setHoverIndex(NAV_ITEMS.length)}
                 className={`relative z-10 flex items-center justify-between px-4 py-3 rounded-xl font-sans text-sm font-medium transition-colors duration-200 ${
-                  location.pathname === '/resources' ? 'text-text-primary' : 'text-zinc-300 hover:text-text-primary'
+                  hoverIndex === NAV_ITEMS.length
+                    ? 'text-text-primary'
+                    : 'text-zinc-300'
                 }`}
               >
                 Resources
-                <ArrowUpRight className="w-4 h-4 transition-all duration-200 opacity-60" />
+                <ArrowUpRight
+                  className={`w-4 h-4 transition-all duration-200 ${
+                    hoverIndex === NAV_ITEMS.length
+                      ? 'text-text-primary opacity-100'
+                      : 'opacity-60'
+                  }`}
+                />
               </a>
+
+
 
 
                                                                              {/* CTA inside dropdown — distinct lift + subtle fill shift (Option A) — opens the Contact page */}
