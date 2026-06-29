@@ -172,6 +172,17 @@ export default function Header() {
       navigate('/contact');
     }
   };
+  // Resources link → real route navigation (separate from the in-page anchor nav items)
+  const handleResourcesClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    setActiveSection('');
+    if (location.pathname !== '/resources') {
+      navigate('/resources');
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
 
   const handleNavClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -340,6 +351,19 @@ export default function Header() {
                   </a>
                 );
               })}
+                            {/* Resources — real route link (not an in-page anchor). Placed below the
+                  anchor nav items so it never interferes with the scroll-spy sliding pill. */}
+              <a
+                href="/resources"
+                onClick={handleResourcesClick}
+                onMouseEnter={() => setHoverIndex(null)}
+                className={`relative z-10 flex items-center justify-between px-4 py-3 rounded-xl font-sans text-sm font-medium transition-colors duration-200 ${
+                  location.pathname === '/resources' ? 'text-text-primary' : 'text-zinc-300 hover:text-text-primary'
+                }`}
+              >
+                Resources
+                <ArrowUpRight className="w-4 h-4 transition-all duration-200 opacity-60" />
+              </a>
 
 
                                                                              {/* CTA inside dropdown — distinct lift + subtle fill shift (Option A) — opens the Contact page */}

@@ -18,6 +18,8 @@ import Footer from './components/Footer';
 import Projects from './components/Projects';
 import WorkPage from './pages/WorkPage';
 import ContactPage from './pages/ContactPage';
+import ResourcesPage from './pages/ResourcesPage';
+
 
 
 // Shared slide variants — forward goes IN from the right, leaves OUT to the right.
@@ -102,6 +104,21 @@ function AnimatedRoutes() {
               </motion.div>
             }
           />
+                    <Route
+            path="/resources"
+            element={
+              <motion.div
+                variants={pageVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={pageTransition}
+              >
+                <ResourcesPage />
+              </motion.div>
+            }
+          />
+
         </Routes>
       </div>
     </AnimatePresence>

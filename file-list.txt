@@ -14,6 +14,11 @@ src\assets\images\mobile app.webp
 src\assets\images\tablete-automation.png
 src\assets\images\workfine-App-laptop.png
 src\assets\images\workfine-App-laptop2.png
+src\assets\images\image opt\automation3.webp
+src\assets\images\image opt\automation31.webp
+src\assets\images\image opt\dan-portfolio3.webp
+src\assets\images\image opt\mobile-app3.webp
+src\assets\images\image opt\web-app3.webp
 src\assets\images\projects\automation1.webp
 src\assets\images\projects\automation2.webp
 src\assets\images\projects\mobile-app.webp
@@ -26,4 +31,7 @@ src\components\Footer.tsx
 src\components\Header.tsx
 src\components\Hero.tsx
 src\components\Projects.tsx
+src\components\ResourceDownloadModal.tsx
 src\components\Reveal.tsx
+src\pages\ResourcesPage.tsx
+src\pages\WorkPage.tsx

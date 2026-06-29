@@ -42,6 +42,16 @@ export interface Project {
   tags: string[];
   link?: string;
 }
+export interface Resource {
+  id: string;
+  title: string;
+  resourceType: 'automation' | 'notion';
+  image: string;
+  tags: string[];
+  fileUrl: string;
+  fileName?: string; // saved-file name for the downloaded asset
+}
+
 
 export interface ContactFormInput {
   name: string;

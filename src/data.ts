@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { WorkExperience, BlogPost, SkillCategory, Project, Capability } from './types';
+import { WorkExperience, BlogPost, SkillCategory, Project, Capability, Resource } from './types';
+
 
 import automation1 from './assets/images/image opt/automation31.webp';
 import automation2 from './assets/images/image opt/automation3.webp';
@@ -29,6 +30,52 @@ export const ABOUT_STATS = [
   { value: "20+", label: "Projects Shipped" },
   { value: "40%", label: "Avg. Performance Gains" }
 ];
+export const RESOURCE_FILTERS = [
+  { key: 'all', label: 'All' },
+  { key: 'automation', label: 'Automation' },
+  { key: 'notion', label: 'Notion' }
+] as const;
+
+export const RESOURCES: Resource[] = [
+  {
+    id: 'res-1',
+    title: 'AI Email Auto-Responder with Ollama',
+    resourceType: 'automation',
+    image: automation1,
+    tags: ['n8n', 'Workflow', 'Free'],
+    fileUrl: 'https://drive.google.com/uc?export=download&id=1Ik56pXl4BSRJ9UzPvPD3D03Jgg4j0tmz',
+    fileName: 'AI-Email-Auto-Responder-with-Ollama.json'
+  },
+  {
+    id: 'res-2',
+    title: 'AI Order Management n8n Workflow',
+    resourceType: 'automation',
+    image: automation2,
+    tags: ['n8n', 'Workflow', 'Free'],
+    fileUrl: 'https://drive.google.com/uc?export=download&id=1TzRj1bHJqqRBaGWFiRvqeyj0Tu2jCqHj',
+    fileName: 'AI-Order-Management-n8n-Workflow.json'
+  },
+  {
+    id: 'res-3',
+    title: 'AI-Powered Customer Order Management Automation System',
+    resourceType: 'automation',
+    image: webApp,
+    tags: ['n8n', 'Workflow', 'Free'],
+    fileUrl: 'https://drive.google.com/uc?export=download&id=17Bk3m5W84VoRp_D_w2sLVQuemFXnNmtq',
+    fileName: 'AI-Powered-Customer-Order-Management-Automation-System.json'
+  },
+  {
+    id: 'res-4',
+    title: 'Automated Employee Onboarding Account Provisioning n8n',
+    resourceType: 'automation',
+    image: mobileApp,
+    tags: ['n8n', 'Workflow', 'Free'],
+    fileUrl: 'https://drive.google.com/uc?export=download&id=1RJsLR0aZ-_HoKIfFaYVCBgHSRs6g_KdO',
+    fileName: 'Automated-Employee-Onboarding-Account-Provisioning-n8n.json'
+  }
+];
+
+
 
 export const PROJECT_FILTERS = [
   { key: 'all', label: 'All' },
