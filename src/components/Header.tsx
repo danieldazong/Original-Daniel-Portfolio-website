@@ -22,7 +22,9 @@ const NAV_ITEMS: NavItem[] = [
 
 export default function Header() {
   const navigate = useNavigate();
-  const location = useLocation();
+    const location = useLocation();
+  const isHome = location.pathname === '/';
+
   const [activeSection, setActiveSection] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
@@ -183,7 +185,12 @@ export default function Header() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
-
+    const handleHomeClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    setActiveSection('');
+    navigate('/');
+  };
 
   const handleNavClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -321,59 +328,107 @@ export default function Header() {
                     'top 0.4s cubic-bezier(0.34,1.56,0.64,1), height 0.3s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s ease',
                 }}
               />
-
-
-              {NAV_ITEMS.map((item, index) => {
-                const id = item.href.substring(1);
-                const isActive = activeSection === id;
-                const isHovered = hoverIndex === index;
-                return (
+                            {isHome ? (
+                NAV_ITEMS.map((item, index) => {
+                  const id = item.href.substring(1);
+                  const isActive = activeSection === id;
+                  const isHovered = hoverIndex === index;
+                  return (
+                    <a
+                      key={item.href}
+                      ref={(el) => { itemRefs.current[index] = el; }}
+                      href={item.href}
+                      onClick={(e) => handleNavClick(e, item.href)}
+                      onMouseEnter={() => setHoverIndex(index)}
+                      className={`relative z-10 flex items-center justify-between px-4 py-3 rounded-xl font-sans text-sm font-medium transition-colors duration-200 ${
+                        isHovered || (isActive && hoverIndex === null)
+                          ? 'text-text-primary'
+                          : 'text-zinc-300'
+                      }`}
+                    >
+                      {item.label}
+                      <ArrowUpRight
+                        className={`w-4 h-4 transition-all duration-200 ${
+                          isHovered || (isActive && hoverIndex === null)
+                            ? 'text-text-primary opacity-100'
+                            : 'opacity-60'
+                        }`}
+                      />
+                    </a>
+                  );
+                })
+                                         ) : (
+                <>
                   <a
-                    key={item.href}
-                    ref={(el) => { itemRefs.current[index] = el; }}
-                    href={item.href}
-                    onClick={(e) => handleNavClick(e, item.href)}
-                    onMouseEnter={() => setHoverIndex(index)}
+                    href="/"
+                    ref={(el) => { itemRefs.current[0] = el; }}
+                    onClick={handleHomeClick}
+                    onMouseEnter={() => setHoverIndex(0)}
                     className={`relative z-10 flex items-center justify-between px-4 py-3 rounded-xl font-sans text-sm font-medium transition-colors duration-200 ${
-                      isHovered || (isActive && hoverIndex === null)
+                      hoverIndex === 0
                         ? 'text-text-primary'
                         : 'text-zinc-300'
                     }`}
                   >
-                    {item.label}
+                    Home
                     <ArrowUpRight
                       className={`w-4 h-4 transition-all duration-200 ${
-                        isHovered || (isActive && hoverIndex === null)
+                        hoverIndex === 0
                           ? 'text-text-primary opacity-100'
                           : 'opacity-60'
                       }`}
                     />
                   </a>
-                );
-              })}
-                            {/* Resources — real route link (not an in-page anchor). Registered as the
-                  next item in itemRefs so it shares the exact same sliding-pill hover
-                  effect as the anchor nav items above. */}
-                            <a
-                href="/resources"
-                ref={(el) => { itemRefs.current[NAV_ITEMS.length] = el; }}
-                onClick={handleResourcesClick}
-                onMouseEnter={() => setHoverIndex(NAV_ITEMS.length)}
-                className={`relative z-10 flex items-center justify-between px-4 py-3 rounded-xl font-sans text-sm font-medium transition-colors duration-200 ${
-                  hoverIndex === NAV_ITEMS.length
-                    ? 'text-text-primary'
-                    : 'text-zinc-300'
-                }`}
-              >
-                Resources
-                <ArrowUpRight
-                  className={`w-4 h-4 transition-all duration-200 ${
+                  {location.pathname !== '/contact' && (
+                    <a
+                      href="/contact"
+                      ref={(el) => { itemRefs.current[1] = el; }}
+                      onClick={handleCtaClick}
+                      onMouseEnter={() => setHoverIndex(1)}
+                      className={`relative z-10 flex items-center justify-between px-4 py-3 rounded-xl font-sans text-sm font-medium transition-colors duration-200 ${
+                        hoverIndex === 1
+                          ? 'text-text-primary'
+                          : 'text-zinc-300'
+                      }`}
+                    >
+                      Contact
+                      <ArrowUpRight
+                        className={`w-4 h-4 transition-all duration-200 ${
+                          hoverIndex === 1
+                            ? 'text-text-primary opacity-100'
+                            : 'opacity-60'
+                        }`}
+                      />
+                    </a>
+                  )}
+                </>
+              )}
+
+
+
+              {location.pathname !== '/resources' && (
+                <a
+                  href="/resources"
+                  ref={(el) => { itemRefs.current[NAV_ITEMS.length] = el; }}
+                  onClick={handleResourcesClick}
+                  onMouseEnter={() => setHoverIndex(NAV_ITEMS.length)}
+                  className={`relative z-10 flex items-center justify-between px-4 py-3 rounded-xl font-sans text-sm font-medium transition-colors duration-200 ${
                     hoverIndex === NAV_ITEMS.length
-                      ? 'text-text-primary opacity-100'
-                      : 'opacity-60'
+                      ? 'text-text-primary'
+                      : 'text-zinc-300'
                   }`}
-                />
-              </a>
+                >
+                  Resources
+                  <ArrowUpRight
+                    className={`w-4 h-4 transition-all duration-200 ${
+                      hoverIndex === NAV_ITEMS.length
+                        ? 'text-text-primary opacity-100'
+                        : 'opacity-60'
+                    }`}
+                  />
+                </a>
+              )}
+
 
 
 
