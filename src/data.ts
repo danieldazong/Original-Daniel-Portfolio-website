@@ -174,8 +174,8 @@ export const CAPABILITIES: Capability[] = [
 export const EXPERIENCE_DATA: WorkExperience[] = [
   {
     id: "exp-1",
-    role: "Founder & AI Solutions Engineer",
-    organization: "SkywaveHost",
+    role: "AI Solutions Engineer",
+    organization: "Nouvrix",
     period: "2024 — PRES",
     bulletPoints: [
       "Designed and delivered AI agents, workflow automations, and internal tools that reduced manual operational effort by 65%+.",

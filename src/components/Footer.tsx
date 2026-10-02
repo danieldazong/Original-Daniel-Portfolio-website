@@ -7,7 +7,7 @@ import { useEffect, useRef, useState, MouseEvent } from 'react';
 import { ArrowUpRight, ArrowUp, Github, Linkedin, Mail, Download } from 'lucide-react';
 
 
-const EMAIL = 'dazong.daniel@gmail.com';
+const EMAIL = 'danieldazong08@gmail.com';
 const LINKEDIN_URL = 'https://www.linkedin.com/in/danieldazong';
 const GITHUB_URL = 'https://github.com/danieldazong';
               
@@ -95,8 +95,8 @@ export default function Footer() {
 
               {/* Download Resume CTA — ghost/outline so it stays secondary to email; white elastic fill slides up on hover */}
               <a
-                href="/Daniel-Dazong-Resume.pdf"
-                download="Daniel-Dazong-Resume.pdf"
+                href="/Resume_Daniel_Dazong_AI_Automation_Engineer.pdf"
+                download="Resume_Daniel_Dazong_AI_Automation_Engineer.pdf"
                 className="group/resume relative inline-flex items-center gap-2.5 px-7 py-4 rounded-full bg-transparent text-zinc-300 border border-zinc-700 font-sans text-sm md:text-base font-semibold overflow-hidden transition-colors duration-300 hover:border-surface"
               >
                 {/* White elastic fill — slides up on hover, retracts down on leave */}
